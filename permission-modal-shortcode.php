@@ -43,10 +43,10 @@ class Permission_Modal_Shortcode {
 
 	/**
 	 * Permission shortcode handler
-	 * @param {string|array} $atts 		The attributes passed to the shortcode like [pmodal attr1="value" /].
+	 * @param {string|array}	$atts 	The attributes passed to the shortcode like [pmodal attr1="value" /].
 	 *                               	Empty string if no argument passed.
-	 * @param {string}			 $string 	The content between non-self closing [pmodal]...[/pmodal] tags.
-	 * @return {string} 							Permission modal HTML.
+	 * @param {string}			$string The content between non-self closing [pmodal]...[/pmodal] tags.
+	 * @return {string}			Permission modal HTML.
 	 */
 	function permission_modal_shortcode($atts, $content = NULL) {
 
@@ -75,7 +75,7 @@ class Permission_Modal_Shortcode {
 	 * Register permission modal scripts and styles.
 	 * @see http://codex.wordpress.org/Function_Reference/wp_register_script
 	 * @see http://codex.wordpress.org/Function_Reference/wp_register_style
-	 * @see &this::pmodal_init_assets() 		for the initialization of these scripts. 
+	 * @see &this::pmodal_init_assets()		for the initialization of these scripts. 
 	 */
 	function pmodal_register_assets() {
 
@@ -103,7 +103,7 @@ class Permission_Modal_Shortcode {
 	 * Initialize the project assets (styles and scripts).
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @see &this::pmodal_register_assets() 		for the registration of queued scripts and styles. 
+	 * @see &this::pmodal_register_assets()		for the registration of queued scripts and styles. 
 	 */
 function pmodal_init_assets() {
 
