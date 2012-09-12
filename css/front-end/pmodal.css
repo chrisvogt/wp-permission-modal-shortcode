@@ -1,0 +1,16 @@
+.consentmodal legend {
+    display: none;
+}
+
+.consentmodal p.sink {
+    font-size: .875em;
+    text-decoration: underline;
+}
+
+.consentmodal p.sink:hover {
+    text-decoration: none;
+}
+
+fieldset.subscriberinfo input {
+    width: 94%;
+}
