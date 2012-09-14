@@ -7,17 +7,17 @@
  * Author URI: http://chrisvogt.me
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Permission Marketing Modals
  * by CHR1SV0GT
  *
  * Inspired by the concept of permission
  * marketing, requesting user interaction prior
  * to advancing forward.
- * 
+ *
  * Adds a shortcode to Wordpress to easily
  * create feature panes requesting user info
- * prior to proceeding.  
+ * prior to proceeding.
  *
  * @package      Wordpress
  * @subpackage   permission_modal_shortcode
@@ -25,14 +25,14 @@
  * @author       Christopher J. Vogt <mail@chrisvogt.me>
  * @copyright    Copyright (c) 2012, Christopher J Vogt
  * @licenses 		 GNU General Public License v2
- * 
+ *
  * Upcoming Releases:
  * @todo _POST user subscription data on accept
  * @todo Store user subscription data on accept
  */
 
 // Check this is within the context of Wordpress
-if ( !defined('ABSPATH') ) { die(); }
+if ( !defined( 'ABSPATH' ) ) { die(); }
 
 class CJVModalShortcode {
 
@@ -46,7 +46,7 @@ class CJVModalShortcode {
 	public function __construct() {
 
 		// Register permission marketing shortcode
-		add_shortcode( 'pmodal', array('CJVModalShortcode', 'permission_modal_shortcode') );
+		add_shortcode( 'pmodal', array( 'CJVModalShortcode', 'permission_modal_shortcode' ) );
 
 		// Conditionally register and queue the shortcode assets
 		$this->pmodal_asset_handler();
@@ -55,83 +55,86 @@ class CJVModalShortcode {
 
 	/**
 	 * Permission shortcode handler
-	 * @param {string|array}	$atts 	The attributes passed to the shortcode like [pmodal attr1="value" /].
-	 *                               	Empty string if no argument passed.
-	 * @param {string}			$string The content between non-self closing [pmodal]...[/pmodal] tags.
-	 * @return {string}			Permission modal HTML.
+	 *
+	 * @param {string|array} $atts   The attributes passed to the shortcode like [pmodal attr1="value" /].
+	 *                                Empty string if no argument passed.
+	 * @param {string} $string The content between non-self closing [pmodal]...[/pmodal] tags.
+	 * @return {string}   Permission modal HTML.
 	 */
-	function permission_modal_shortcode($atts, $content = NULL) {
+	function permission_modal_shortcode( $atts, $content = NULL ) {
 
 		// Store the attribute results in local variables,
 		// define shortcode attributes and default settings
 		extract( shortcode_atts( array(
-				'href'			=>	'undefinedHREF',
-				'buttontext'	=>	'undefinedButtonText'
-			), $atts ) );
+					'href'   => 'undefinedHREF',
+					'buttontext' => 'undefinedButtonText'
+				), $atts ) );
 
 		$template = file_get_contents( 'README.md' );
 
 		// test!
-		var_dump($template);
+		var_dump( $template );
 
 	}
 
 	/* Init
    ================================================================= */
 
-   function pmodal_asset_handler() {
+	function pmodal_asset_handler() {
 
-	/* Hook front-end scripts if current screen is a post or page */ 
-	if ( is_singular() && !is_admin() ) {
+		/* Hook front-end scripts if current screen is a post or page */
+		if ( is_singular() && !is_admin() ) {
 
-		// add script registration to wp_enqueue_scripts hook
-		add_action('wp_enqueue_scripts', 'pmodal_register_assets');
+			// add script registration to wp_enqueue_scripts hook
+			add_action( 'wp_enqueue_scripts', 'pmodal_register_assets' );
 
-		// add asset initialization to wp_enqueue_scripts hook 
-		add_action('wp_enqueue_scripts', 'pmodal_init_assets');
+			// add asset initialization to wp_enqueue_scripts hook
+			add_action( 'wp_enqueue_scripts', 'pmodal_init_assets' );
+
+		}
 
 	}
 
-   }
-
 	/**
 	 * Register permission modal scripts and styles.
+	 *
 	 * @see http://codex.wordpress.org/Function_Reference/wp_register_script
 	 * @see http://codex.wordpress.org/Function_Reference/wp_register_style
-	 * @see &this::pmodal_init_assets()		for the initialization of these scripts. 
+	 * @see &this::pmodal_init_assets()  for the initialization of these scripts.
 	 */
 	function pmodal_register_assets() {
 
-		// front-end stylesheet; defines modal styles 
+		// front-end stylesheet; defines modal styles
 		wp_register_style(
-						'pmodal-style',
-						plugins_url('/css/front-end/pmodal.css', __FILE__),
-						false,
-						0.1
-			);
+			'pmodal-style',
+			plugins_url( '/css/front-end/pmodal.css', __FILE__ ),
+			false,
+			0.1
+		);
 
 		// front-end JavaScript; initializes modal
 		wp_register_script(
-						'pmodal-init',
-						plugins_url('/js/front-end/pmodal.js', __FILE__),
-						array('jquery')
-			);
+			'pmodal-init',
+			plugins_url( '/js/front-end/pmodal.js', __FILE__ ),
+			array( 'jquery' )
+		);
 
 	}
 
 	/**
 	 * Initialize the project assets (styles and scripts).
+	 *
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @see &this::pmodal_register_assets()		for the registration of queued scripts and styles. 
+	 * @see &this::pmodal_register_assets()  for the registration of queued scripts and styles.
 	 */
 	function pmodal_init_assets() {
 
 		// safely queue the front-end CSS
-		wp_enqueue_style('pmodal-style');
+		wp_enqueue_style( 'pmodal-style' );
 
 		// safely queue the front-end JavaScript
-		wp_enqueue_script('pmodal-init');
+		wp_enqueue_script( 'pmodal-init' );
 
 	}
 
@@ -141,22 +144,23 @@ class CJVModalShortcode {
 
 	/**
 	 * Booleanize a value
-	 * @param  {boolean|string} $value
+	 *
+	 * @param {boolean|string} $value
 	 * @return {boolean}
 	 */
-	function permission_booleanize($value) {
-		return is_bool($value) ? $value : $value === 'true' ? true : false;
+	function permission_booleanize( $value ) {
+		return is_bool( $value ) ? $value : $value === 'true' ? true : false;
 	}
 
 	/**
 	 * Use file_get_contents to grab the modal template.
 	 */
-	protected function get_template_file($file) {
+	protected function get_template_file( $file ) {
 
 		// Empty the template property (should already be empty)
 		$this->template = '';
 
-		$this->template = file_get_contents($file);
+		$this->template = file_get_contents( $file );
 
 	}
 
