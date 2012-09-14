@@ -34,12 +34,24 @@
 // Check this is within the context of Wordpress
 if ( !defined('ABSPATH') ) { die(); }
 
-class Permission_Modal_Shortcode {
+class CJVModalShortcode {
 
-	/* Register permission marketing shorcode
-	   ================================================================= */
+	// Contents of the template file
+	public $template = '';
 
-	add_shortcode("pmodal", "permission_modal_shortcode");
+	/**
+	 * Class constructor.
+	 * Adds the shortcode and registers it's resources.
+	 */
+	public function __construct() {
+
+		// Register permission marketing shortcode
+		add_shortcode( 'pmodal', array('CJVModalShortcode', 'permission_modal_shortcode') );
+
+		// Conditionally register and queue the shortcode assets
+		$this->pmodal_asset_handler();
+
+	}
 
 	/**
 	 * Permission shortcode handler
@@ -50,26 +62,37 @@ class Permission_Modal_Shortcode {
 	 */
 	function permission_modal_shortcode($atts, $content = NULL) {
 
-		// Custom shortcode options
-		shortcode_options = array_merge(array('url' => trim($content)), is_array($atts) ? $atts : array() );
+		// Store the attribute results in local variables,
+		// define shortcode attributes and default settings
+		extract( shortcode_atts( array(
+				'href'			=>	'undefinedHREF',
+				'buttontext'	=>	'undefinedButtonText'
+			), $atts ) );
 
-		// Shortcode option "param" (param=value&param2=value) into array
-		$shortcode_params = array();
-		if (isset($shortcode_options['params'])) {
-			parse_str(html_entity_decode($shortcode_options['params']), $shortcode_params);
-		}
-		$shortcode_options['params'] = $shortcode_params;
+		$template = file_get_contents( 'README.md' );
 
-		// Create a reference of the shortcode options function
-		$options = &$shortcode_options;
-
-		// The "url" option is required
-		if (isset($options['url'])) { return ''; }
+		// test!
+		var_dump($template);
 
 	}
 
 	/* Init
    ================================================================= */
+
+   function pmodal_asset_handler() {
+
+	/* Hook front-end scripts if current screen is a post or page */ 
+	if ( is_singular() && !is_admin() ) {
+
+		// add script registration to wp_enqueue_scripts hook
+		add_action('wp_enqueue_scripts', 'pmodal_register_assets');
+
+		// add asset initialization to wp_enqueue_scripts hook 
+		add_action('wp_enqueue_scripts', 'pmodal_init_assets');
+
+	}
+
+   }
 
 	/**
 	 * Register permission modal scripts and styles.
@@ -96,32 +119,22 @@ class Permission_Modal_Shortcode {
 
 	}
 
-	// add script registration to wp_enqueue_scripts hook
-	add_action('wp_enqueue_scripts', 'pmodal_register_assets')
-
 	/**
 	 * Initialize the project assets (styles and scripts).
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @see &this::pmodal_register_assets()		for the registration of queued scripts and styles. 
 	 */
-function pmodal_init_assets() {
+	function pmodal_init_assets() {
 
-	// safely queue the front-end CSS
-	wp_enqueue_style('pmodal-style');
+		// safely queue the front-end CSS
+		wp_enqueue_style('pmodal-style');
 
-	// safely queue the front-end JavaScript
-	wp_enqueue_script('pmodal-init');
+		// safely queue the front-end JavaScript
+		wp_enqueue_script('pmodal-init');
 
-}
+	}
 
-/* Hook front-end scripts if current screen is a post or page */ 
-if ( is_singular() && !is_admin() ) {
-
-	// add asset initialization to wp_enqueue_scripts hook 
-	add_action('wp_enqueue_scripts', 'pmodal_init_assets');
-
-}
 
 	/* Helper Functions
 	   ================================================================= */
@@ -135,6 +148,18 @@ if ( is_singular() && !is_admin() ) {
 		return is_bool($value) ? $value : $value === 'true' ? true : false;
 	}
 
-} // end of Permission_Modal_Shortcode
+	/**
+	 * Use file_get_contents to grab the modal template.
+	 */
+	protected function get_template_file($file) {
 
-$pmodal = new Permission_Modal_Shortcode();
+		// Empty the template property (should already be empty)
+		$this->template = '';
+
+		$this->template = file_get_contents($file);
+
+	}
+
+} // end of CJVModalShortcode
+
+$pmodal = new CJVModalShortcode();
