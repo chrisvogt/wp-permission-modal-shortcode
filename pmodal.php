@@ -45,13 +45,88 @@ class CJVModalShortcode {
 	 */
 	public function __construct() {
 
-		// Register permission marketing shortcode
-		add_shortcode( 'pmodal', array( 'CJVModalShortcode', 'permission_modal_shortcode' ) );
-
 		// Conditionally register and queue the shortcode assets
 		$this->pmodal_asset_handler();
 
+		// Register the shortcode
+		$this->pmodal_register_shortcode();
+
+    $this->pmodal_settings_handler();
+
 	}
+
+  /* Init
+   ================================================================= */
+
+  function pmodal_asset_handler() {
+
+    /* Hook front-end scripts if current screen is a post or page */
+    // if ( is_singular() && !is_admin() ) {
+
+      // add script registration to wp_enqueue_scripts hook
+      add_action( 'wp_enqueue_scripts', array($this, 'pmodal_register_assets' ) );
+
+      // add asset initialization to wp_enqueue_scripts hook
+      add_action( 'wp_enqueue_scripts', array($this, 'pmodal_init_assets' ) );
+
+    // }
+
+  }
+
+  /**
+   * Register permission modal scripts and styles.
+   *
+   * @see http://codex.wordpress.org/Function_Reference/wp_register_script
+   * @see http://codex.wordpress.org/Function_Reference/wp_register_style
+   * @see &this::pmodal_init_assets()  for the initialization of these scripts.
+   */
+  function pmodal_register_assets() {
+
+    // front-end stylesheet; defines modal styles
+    wp_register_style(
+      'pmodal-style',
+      plugins_url( '/css/front-end/pmodal.css', __FILE__ ),
+      false,
+      0.1
+    );
+
+    // front-end JavaScript; initializes modal
+    wp_register_script(
+      'pmodal-init',
+      plugins_url( '/js/front-end/pmodal.js', __FILE__ ),
+      array( 'jquery', 'jquery-ui-core', 'jquery-ui-dialog' ),
+      null,
+      true
+    );
+
+  }
+
+  /**
+   * Initialize the project assets (styles and scripts).
+   *
+   * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+   * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+   * @see &this::pmodal_register_assets()  for the registration of queued scripts and styles.
+   */
+  function pmodal_init_assets() {
+
+    // safely queue the front-end CSS
+    wp_enqueue_style( 'pmodal-style' );
+
+    // safely queue the front-end JavaScript
+    wp_enqueue_script( 'pmodal-init' );
+
+  }
+
+  function pmodal_register_shortcode() {
+
+    // Register permission marketing shortcode
+    add_shortcode( 'pmodal', array( &$this, 'permission_modal_shortcode' ) );
+
+  }
+
+		/* The Shortcode
+	   ================================================================= */
 
 	/**
 	 * Permission shortcode handler
@@ -61,7 +136,7 @@ class CJVModalShortcode {
 	 * @param {string} $string The content between non-self closing [pmodal]...[/pmodal] tags.
 	 * @return {string}   Permission modal HTML.
 	 */
-	function permission_modal_shortcode( $atts, $content = NULL ) {
+	function permission_modal_shortcode( $atts = array(), $content = NULL ) {
 
 		// Store the attribute results in local variables,
 		// define shortcode attributes and default settings
@@ -73,68 +148,9 @@ class CJVModalShortcode {
 		$template = file_get_contents( 'README.md' );
 
 		// test!
-		var_dump( $template );
+		//var_dump( $atts );
 
-	}
-
-	/* Init
-   ================================================================= */
-
-	function pmodal_asset_handler() {
-
-		/* Hook front-end scripts if current screen is a post or page */
-		if ( is_singular() && !is_admin() ) {
-
-			// add script registration to wp_enqueue_scripts hook
-			add_action( 'wp_enqueue_scripts', 'pmodal_register_assets' );
-
-			// add asset initialization to wp_enqueue_scripts hook
-			add_action( 'wp_enqueue_scripts', 'pmodal_init_assets' );
-
-		}
-
-	}
-
-	/**
-	 * Register permission modal scripts and styles.
-	 *
-	 * @see http://codex.wordpress.org/Function_Reference/wp_register_script
-	 * @see http://codex.wordpress.org/Function_Reference/wp_register_style
-	 * @see &this::pmodal_init_assets()  for the initialization of these scripts.
-	 */
-	function pmodal_register_assets() {
-
-		// front-end stylesheet; defines modal styles
-		wp_register_style(
-			'pmodal-style',
-			plugins_url( '/css/front-end/pmodal.css', __FILE__ ),
-			false,
-			0.1
-		);
-
-		// front-end JavaScript; initializes modal
-		wp_register_script(
-			'pmodal-init',
-			plugins_url( '/js/front-end/pmodal.js', __FILE__ ),
-			array( 'jquery' )
-		);
-
-	}
-
-	/**
-	 * Initialize the project assets (styles and scripts).
-	 *
-	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @see &this::pmodal_register_assets()  for the registration of queued scripts and styles.
-	 */
-	function pmodal_init_assets() {
-
-		// safely queue the front-end CSS
-		wp_enqueue_style( 'pmodal-style' );
-
-		// safely queue the front-end JavaScript
-		wp_enqueue_script( 'pmodal-init' );
+    include("tpl/pmodal.php");
 
 	}
 

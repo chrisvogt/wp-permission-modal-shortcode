@@ -2,7 +2,7 @@
 /**
  * Build the modal if it has an ID assigned. 
  */
-if ( isset( $options['id'] ) ) : ?>
+// if ( isset( $options['id'] ) ) : ?>
 
 <div id="consentdialog" title="Consent Dialog">
 
@@ -50,7 +50,7 @@ jQuery(function($) { // Consent modal jQuery UI .Dialog() settings
     $consent.dialog({                   
         'dialogClass'   : 'consent-dialog',           
         'modal'         : true,
-        'autoOpen'      : false, // TRUE during development 
+        'autoOpen'      : true, // TRUE during development 
         'closeOnEscape' : true,
         'width'         : 365,
         'buttons'        : [ { 
@@ -83,6 +83,6 @@ jQuery(function($) { // Consent modal jQuery UI .Dialog() settings
  * Danger! Danger! Danger!
  * (@internal as seen in @link http://www.freakingnews.com/pictures/8000/Rodney-Dangerfish--8451.jpg )
  */
-else :
-    echo 'Modal ID undefined.';
-endif;
+//else :
+//    echo 'Modal ID undefined.';
+//endif;
