@@ -4,15 +4,15 @@
  */
 // if ( isset( $options['id'] ) ) : ?>
 
-<div id="consentdialog" title="Consent Dialog">
+<div id="consentdialog" title="<?php echo mytheme_option('headline'); ?>">
 
-    <img src="<?php echo $content['topimage']; ?>" id="topimage" />
+    <img src="<?php echo mytheme_option('header_logo'); ?>" id="topimage" />
 
-    <h4><?php echo $content['headline']; ?></h4>
+    <h4><?php echo mytheme_option('headline'); ?></h4>
 
     <!-- <h4 style="color: red;"><?php echo $form['featureURL']; ?></h4> -->
 
-    <p><?php echo $content['body']; ?></p>
+    <p><?php echo mytheme_option('body'); ?></p>
 
     <form class="consentmodal">
 

@@ -125,6 +125,12 @@ class CJVModalShortcode {
 
   }
 
+  function pmodal_settings_handler() {
+
+   include("inc/class.my-theme-options.php");
+
+  }
+
 		/* The Shortcode
 	   ================================================================= */
 
@@ -145,7 +151,7 @@ class CJVModalShortcode {
 					'buttontext' => 'undefinedButtonText'
 				), $atts ) );
 
-		$template = file_get_contents( 'README.md' );
+		// $template = file_get_contents( 'README.md' );
 
 		// test!
 		//var_dump( $atts );
