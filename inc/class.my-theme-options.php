@@ -191,11 +191,22 @@ class My_Theme_Options {
 	 */
 	public function display_about_section() { ?>
 		
-		<img src="<?php echo $this->get_gravatar( 'mail@chrisvogt.me' ); ?>" width="80" height="80" style="float: left;" />
-		<p style="clear: right;">Permission Modals Shortcut is a Wordpress plugin by <a href="http://chrisvogt.me">CHR1SV0GT</a>, and is intended to create a Permission Marketing-inspired dialog box requesting user subscription before proceeding.</p>
-		<p style="clear: left;">
-			This plugin adds a <em>[feature]</em> shortcode to Wordpress, which accepts the following attributes: <strong>Finish this later</strong>
+		<img src="<?php echo $this->get_gravatar( 'mail@chrisvogt.me' ); ?>" width="80" height="80" class="alignright" />
+		<p>
+			Permission Modal Shortcut is a Wordpress plugin by <a href="http://chrisvogt.me">CHR1SV0GT</a> intended to produce "permission marketing"-inspired dialog box requesting subscription before proceeding.
 		</p>
+		<p>
+			This plugin adds a <em>[feature]</em> shortcode to Wordpress. This shortcode accepts the following attributes: 
+		</p>
+
+		<ul style="list-style: square; margin-left: 18px;">
+			<li>href - URL to the destination redirect</li>
+			<li>buttontext - Text to display on the feature bar button</li> 
+		</ul>
+
+		<p>An example of the shortcode is as follows</p>
+
+		<p><pre>[pmodal href="http://reddit.com" buttontext="Go there"]You want to go to there...[/pmodal]</pre></p>
 		
 <?php }
 
@@ -322,6 +333,13 @@ class My_Theme_Options {
 		/* General Settings
 		===========================================*/
 		
+		$this->settings['content_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'    => 'Permission Modal Content',
+			'type'    => 'heading'
+		);
+
 		$this->settings['headline'] = array(
 			'title'   => __( 'Modal Headline' ),
 			'desc'    => __( 'This is the headline copy in the modal. ' ),
@@ -337,22 +355,23 @@ class My_Theme_Options {
 			'type'    => 'textarea',
 			'section' => 'general'
 		);
-		
-		$this->settings['example_checkbox'] = array(
-			'section' => 'general',
-			'title'   => __( 'Example Checkbox' ),
-			'desc'    => __( 'This is a description for the checkbox.' ),
-			'type'    => 'checkbox',
-			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
-		);
-		
-		$this->settings['example_heading'] = array(
+
+		$this->settings['action_heading'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
-			'desc'    => 'Example Heading',
+			'desc'    => 'Form Action',
 			'type'    => 'heading'
 		);
-		
+
+		$this->settings['cf7_shortcode'] = array(
+			'title'   => __( 'CF7 Shortcode' ),
+			'desc'    => __( 'The Contact Form 7 shortcode to display. ' ),
+			'std'     => 'Subscribe before proceeding',
+			'type'    => 'text',
+			'section' => 'general'
+		);
+
+		/*
 		$this->settings['example_radio'] = array(
 			'section' => 'general',
 			'title'   => __( 'Example Radio' ),
@@ -378,6 +397,8 @@ class My_Theme_Options {
 				'choice3' => 'Other Choice 3'
 			)
 		);
+
+	 */
 		
 		/* Appearance
 		===========================================*/

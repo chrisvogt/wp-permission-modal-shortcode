@@ -1,3 +1,26 @@
+/* This is temporary for development */
+.alert {
+  width: 100%;
+  height: 20px;
+  margin-bottom:15px;
+  background-color: #FFF9B8;
+  color: #333;
+  border-bottom: solid #000000;
+  padding: 5px 0 5px 0;
+  text-align: center;
+  font-size: 12px;
+  font-family: Georgia, "Times New Roman";
+  font-weight: bold;
+}
+
+/* Hide the modal to begin with, this will prevent that
+ * annoying flash before the assets load */
+#consentdialog { display: none; }
+
+#skipthis { text-decoration: underline; }
+#skipthis:hover { text-decoration: none; }
+
+
 .consentmodal legend {
     display: none;
 }
@@ -14,3 +37,4 @@
 fieldset.subscriberinfo input {
     width: 94%;
 }
+

@@ -151,12 +151,9 @@ class CJVModalShortcode {
 					'buttontext' => 'undefinedButtonText'
 				), $atts ) );
 
-		// $template = file_get_contents( 'README.md' );
-
-		// test!
-		//var_dump( $atts );
-
     include("tpl/pmodal.php");
+
+    return '<div class="feature"><a class="button blue" href="'.$href.'">'.$buttontext.'</a><span>'.$content.'</span></div>';
 
 	}
 
