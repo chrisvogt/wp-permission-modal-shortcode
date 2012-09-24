@@ -2,8 +2,8 @@
 /*
  * Plugin Name: Permission Modal Shortcode
  * Description: Quick & simple permission marketing dialog boxes for Wordpress.
- * Version: 0.0.1
- * Author: Christopher J. Vogt <mail@chrisvogt.me>
+ * Version: 0.0.2
+ * Author: CHR1SV0GT <mail@chrisvogt.me>
  * Author URI: http://chrisvogt.me
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -21,7 +21,7 @@
  *
  * @package      Wordpress
  * @subpackage   permission_modal_shortcode
- * @version      0.0.1
+ * @version      0.0.2
  * @author       Christopher J. Vogt <mail@chrisvogt.me>
  * @copyright    Copyright (c) 2012, Christopher J Vogt
  * @licenses 		 GNU General Public License v2
